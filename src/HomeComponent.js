@@ -8,13 +8,13 @@ import * as Google from 'expo-auth-session/providers/google';
 export default function HomeComponent({ navigation }) {
 
   const [request, response, promptAsync] = Google.useAuthRequest({
-    expoClientId: '----------------------------------------------'
+    expoClientId: 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
   });
 
   React.useEffect(() =>{
     if(response?.type==='success'){
-      console.log(response);
-      navigation.navigate('poke')
+     // console.log(response);
+      navigation.navigate('poke',{auth:response.authentication})
   }
   
   },[response]);
@@ -22,15 +22,15 @@ export default function HomeComponent({ navigation }) {
 
   return (
     <View style={{ display:'flex',flex: 1, alignItems: 'center', justifyContent: 'center',}}>
-      <Text>Home Screen 2</Text>
+      <Text>Pantalla de inicio</Text>
       <Button
-      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom:40}}
-        title="ingresar con google 1"
+      style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginTop:40}}
+        title="ingresar con google"
         onPress={() => promptAsync()}
       />
       
       <Button
-        style={{ flex: 1, alignItems: 'center', justifyContent: 'center', marginBottom:40}}
+        style={{  alignItems: 'center', justifyContent: 'center', margin:40}}
         title="About"
         onPress={() => navigation.navigate('about')}
       />

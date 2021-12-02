@@ -21,10 +21,14 @@ import { Card } from 'react-native-paper';
 
 import { nuevoPokemonRandom,calcularNivel } from './servicios/pokeApi';
 
+import {getUserInfo} from './servicios/GoogleApi';
+
 import MenuComponent from './MenuComponent';
 
 
-export default function PokeCard({ navigation }) {
+export default function PokeCard({ navigation,route }) {
+
+
 
   const [imagen, setImagen] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/792.png");
   const [nombre, setNombre] = useState("");
@@ -32,10 +36,19 @@ export default function PokeCard({ navigation }) {
   const [exp, setExp] = useState(0);
   const [nivel, setNivel] = useState(1);
 
+  const [auth,setAuth] = useState(null);
+
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
+  const [userPicture, setUserPicture] = useState("");
 
 
   useEffect(() => {
+    //console.log(route.params.auth.accessToken);
+    setAuth(route.params.auth.accessToken);
+    getInfo(auth);
     nuevoPokemon();
+
   }, []) 
 
   const reset = async () => {
@@ -52,8 +65,23 @@ export default function PokeCard({ navigation }) {
         setImagen(response.img);
         setNombre(response.name);
         setLoading(false);
-      });
+      }).catch((error) => console.error(error))
   };
+
+  const getInfo = async()=>{
+    await getUserInfo(auth)
+    .then(response => {
+      setUserName(response.name);
+      setUserPicture(response.img);
+      setUserEmail(response.mail);
+
+      console.log(response)
+      
+
+    }).catch((error) => console.error(error))
+};
+
+
 
   const subirExp = () => {
     setExp(parseInt(exp) + 1);
@@ -61,8 +89,12 @@ export default function PokeCard({ navigation }) {
   };
 
 
+
   return (
     <View style={styles.container}>
+      <Text> {userName} </Text>
+      <Text> {userEmail} </Text>
+      <Image source={{ uri: userPicture }} style={styles.imagenPerfil} />
       <Card>
         <ActivityIndicator size="large" animating={isLoading} />
         <Text style={styles.paragraph}>
@@ -104,6 +136,9 @@ const styles = StyleSheet.create({
     margin: 10,
     resizeMode: 'cover',
     marginRight: 7
+  },
+  imagenPerfil:{
+    height: 30
   },
   button: {
     flexDirection: 'row',

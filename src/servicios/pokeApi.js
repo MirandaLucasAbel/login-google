@@ -30,12 +30,12 @@
                 data.img =url;
                 data.id = json.game_indices[19].game_index;
                
-                console.log(data)
+               // console.log(data)
                 return data;
 
             })
-            .catch((error) => console.error(error))
-            .finally(console.log('fin generar pokemon'));
+            .catch(error => console.error('Error:', error))
+            
     }
 
     export const nuevoPokemonRandom = async () => {
@@ -58,12 +58,12 @@
 
                 data.name = json.name;
                 data.img =url;
-                console.log(data)
+                //console.log(data)
                 return data;
 
             })
             .catch((error) => console.error(error))
-            .finally(console.log('fin generar pokemon'));
+            
 
 };
 

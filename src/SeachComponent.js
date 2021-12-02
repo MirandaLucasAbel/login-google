@@ -34,7 +34,7 @@ export default function SeachComponent({ navigation }) {
         setId(response.id);
         setBuscar("")
       console.log(response);
-    });
+    }).catch(err=>{console.log(err)});
   }
 
   
